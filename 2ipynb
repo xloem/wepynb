@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+import json
+
+name = 'clipdraw'
+nbfile = 'clipdraw.ipynb'
+
+with open(name + '.ipynb') as f:
+	nb = json.load(f)
+for idx, cell in enumerate(nb['cells']):
+    if cell['cell_type'] == 'code':
+        with open('{}_{}.py'.format(name, idx)) as f:
+            cell['source'] = f.read().removesuffix('\n').splitlines(keepends = True)
+with open(name + '.ipynb', 'w') as f:
+    json.dump(nb, f, indent=2)
